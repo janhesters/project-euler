@@ -1,24 +1,23 @@
 import any from 'ramda/src/any.js';
-import complement from 'ramda/src/complement.js';
-import is from 'ramda/src/is.js';
-import lt from 'ramda/src/lt.js';
+import curry from 'ramda/src/curry.js';
+import dec from 'ramda/src/dec.js';
 import mathMod from 'ramda/src/mathMod.js';
+import pipe from 'ramda/src/pipe.js';
 import reduce from 'ramda/src/reduce.js';
 
-const isNumber = is(Number);
-const range = (start, end) =>
-  Array.from({ length: end - start + 1 }, (x, i) => i + start);
+import { positiveNumberOrThrow } from '../fp';
 
-const sumMultiples = (...nmbrs) => bound => {
-  if (complement(isNumber)(bound) || lt(bound, 0)) {
-    throw new Error('bound must be a positive number');
-  }
-  return reduce(
-    (a, c) => (any(x => mathMod(c, x) === 0, nmbrs) ? a + c : a),
-    0,
-    range(0, bound - 1)
+const range = curry((start, end) =>
+  Array.from({ length: end - start + 1 }, (x, i) => i + start)
+);
+
+const sumMultiples = (...nmbrs) =>
+  pipe(
+    positiveNumberOrThrow,
+    dec,
+    range(0),
+    reduce((a, c) => (any(x => mathMod(c, x) === 0, nmbrs) ? a + c : a), 0)
   );
-};
 
 /**
  * @param {number} bound - Maximum number (excluded) until which should be summed up to. Must be positive.
