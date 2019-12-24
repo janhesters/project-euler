@@ -8,9 +8,9 @@ const trace = msg => tap(x => console.log(msg, x));
 const isNumber = is(Number);
 const isNotNumber = complement(isNumber);
 
-const positiveNumberOrThrow = x => {
+const positiveNumberOrThrow = (msg = '?') => x => {
   if (isNotNumber(x) || lt(x, 0)) {
-    throw new Error('bound must be a positive number');
+    throw new Error(`${msg} must be a positive number`);
   }
   return x;
 };

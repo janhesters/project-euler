@@ -13,7 +13,7 @@ const range = curry((start, end) =>
 
 const sumMultiples = (...nmbrs) =>
   pipe(
-    positiveNumberOrThrow,
+    positiveNumberOrThrow('bound'),
     dec,
     range(0),
     reduce((a, c) => (any(x => mathMod(c, x) === 0, nmbrs) ? a + c : a), 0)

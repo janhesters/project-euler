@@ -17,7 +17,7 @@ const buildFibonacciArray = (limit, arr = [1]) => {
 };
 
 const evenFibonacciNumbers = pipe(
-  positiveNumberOrThrow,
+  positiveNumberOrThrow('bound'),
   buildFibonacciArray,
   filterEvens,
   sum
